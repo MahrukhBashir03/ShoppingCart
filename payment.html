@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        async function submitPayment(event) {
+            event.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                address: document.getElementById('address').value,
+                email: document.getElementById('email').value,
+                cardType: document.getElementById('cardType').value,
+                cardNumber: document.getElementById('cardNumber').value,
+                expirationDate: document.getElementById('expirationDate').value,
+                pincode: document.getElementById('pincode').value,
+            };
+
+            const response = await fetch('/save-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                alert('Payment successful!');
+            } else {
+                alert('Error processing payment');
+            }
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="submitPayment(event)">
+        <h1>Payment Form</h1>
+        <input id="name" placeholder="Name" required />
+        <input id="address" placeholder="Address" required />
+        <input id="email" placeholder="Email" required />
+        <select id="cardType" required>
+            <option>Visa</option>
+            <option>MasterCard</option>
+            <option>UnionPay</option>
+        </select>
+        <input id="cardNumber" placeholder="Card Number" required />
+        <input id="expirationDate" type="date" required />
+        <input id="pincode" placeholder="Pincode" required />
+        <button type="submit">Pay Now</button>
+    </form>
+</body>
+</html>
